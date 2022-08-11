@@ -181,7 +181,7 @@ class CandidatesController extends Controller
 
             $job = $request->job;
             if ($job != null) {
-                $fjob = $job;
+                $fjob = $job['id'];
             } else {
                 $fjob = $candidate->job_id;
             }
