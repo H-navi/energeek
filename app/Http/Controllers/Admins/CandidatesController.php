@@ -25,7 +25,7 @@ class CandidatesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {        
+    {   
         return Inertia::render('Admins/Candidates/Index', [
             'jobs' => Job::whereNull('deleted_at')->orWhereNull('deleted_by')->get(),
             'skills' => Skill::whereNull('deleted_at')->orWhereNull('deleted_by')->get(),
@@ -51,12 +51,6 @@ class CandidatesController extends Controller
      */
     public function store(Request $request)
     {
-
-        // $skills = $request->skills[0];
-        // foreach($skills as $skill):
-        //     var_dump($skill['id']);
-        // endforeach;
-        // die;
         if (auth()->user()->hasAnyRole(['super-admin', 'admin'])) {
             $this->validate($request, [
                 'job' => 'required',
@@ -67,7 +61,7 @@ class CandidatesController extends Controller
                 'skills' => 'required',
             ]);
             $model = Candidate::create([
-                'job_id' => $request->job[0]['id'],
+                'job_id' => $request->job['id'],
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
@@ -75,7 +69,7 @@ class CandidatesController extends Controller
                 'created_by' => Auth::id(),
             ]);
 
-            $skills = $request->skills[0];
+            $skills = $request->skills;
             foreach($skills as $skill):
                 $store_skill = Skill_set::create([
                     'candidate_id' => $model->id,
