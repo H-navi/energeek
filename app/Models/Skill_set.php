@@ -15,5 +15,5 @@ class Skill_set extends Model
         'skill_id',
     ];
 
-    protected $with = ['jobs', 'skill_id'];
+    protected $with = ['jobs', 'skills'];
 }
