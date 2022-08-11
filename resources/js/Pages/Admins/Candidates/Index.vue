@@ -47,7 +47,7 @@
                     </thead>
                     <tbody>
                       <tr
-                        v-for="(candidate, index) in candidates.data"
+                        v-for="(candidate, index) in candidates"
                         :key="index"
                       >
                         <td class="text-capitalize">{{ candidate.name }}</td>
@@ -90,7 +90,7 @@
         </div>
       </section>
 
-      <div class="modal fade" id="modal-lg">
+      <div class="modal fade" id="modal-lg" data-toggle="modal" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -105,22 +105,13 @@
               </button>
             </div>
             <div class="modal-body overflow-hidden">
-              <div class="d-flex flex-column h4">
-                <span
-                  >Preview: <span class="text-capitalize">{{ form.name }}</span>
-                </span>
-                <span class="mt-2"
-                  >Preview E-mail:
-                  <span class="text-capitalize">{{ form.email }}</span>
-                </span>
-              </div>
               <div class="card card-primary">
                 <form @submit.prevent="checkMode">
                   <div class="card-body">
                     <div class="form-group">
                       <label for="skills" class="h4">Jabatan</label>
                       <multiselect
-                        v-model="form.job[0]"
+                        v-model="form.job"
                         :options="jobOptions"
                         :multiple="false"
                         placeholder="Choose a Job"
@@ -214,7 +205,7 @@
                     <div class="form-group">
                       <label for="skills" class="h4">Skills</label>
                       <multiselect
-                        v-model="form.skills[0]"
+                        v-model="form.skills"
                         :options="skillOptions"
                         :multiple="true"
                         placeholder="Choose skills"
@@ -322,7 +313,7 @@ export default {
     editModal(candidate) {
       this.editMode = true;
       $("#modal-lg").modal("show");
-      this.editedIndex = this.candidates.data.indexOf(candidate);
+      this.editedIndex = this.candidates.indexOf(candidate);
       this.form.name = candidate.name;
       this.form.email = candidate.email;
       this.form.phone = candidate.phone;
