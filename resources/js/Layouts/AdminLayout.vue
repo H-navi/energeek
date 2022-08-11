@@ -1,5 +1,5 @@
 <template>
-    <div class="dark-mode">
+    <div class="light-mode">
         <div class="wrapper" style="overflow: auto;">
 
         <!-- Preloader -->
