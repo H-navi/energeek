@@ -4,8 +4,8 @@
       <div class="col-12">
         <div v-if="canLogin" class="d-flex justify-content-end">
           <div>
-            <inertia-link v-if="$page.props.user" href="/dashboard" class="text-muted">
-              Dashboard
+            <inertia-link v-if="$page.props.user" href="/admin/dashboard" class="text-muted">
+              Admin Dashboard
             </inertia-link>
 
             <template v-else>

@@ -32,51 +32,8 @@
                         </inertia-link>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-table"></i>
-                            <p>
-                                Tables
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item" v-if="$page.props.auth.hasRole.superAdmin || $page.props.auth.hasRole.admin || $page.props.auth.hasRole.moderator || $page.props.auth.hasRole.developer">
-                                <inertia-link :href="route('admin.admins.index')" class="nav-link" :class="route().current('admin.admins.*') ? 'active' : ' '">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>
-                                        Admins
-                                    </p>
-                                </inertia-link>
-                            </li>
-                            <li class="nav-item" v-if="$page.props.auth.hasRole.superAdmin || $page.props.auth.hasRole.admin || $page.props.auth.hasRole.moderator">
-                                <inertia-link :href="route('admin.users.index')" class="nav-link" :class="route().current('admin.users.*') ? 'active' : ' '">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>
-                                        Users
-                                    </p>
-                                </inertia-link>
-                            </li>
-                            <li class="nav-item" v-if="$page.props.auth.hasRole.superAdmin || $page.props.auth.hasRole.admin || $page.props.auth.hasRole.moderator">
-                                <inertia-link :href="route('admin.roles.index')" class="nav-link" :class="route().current('admin.roles.*') ? 'active' : ' '">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>
-                                        Roles
-                                    </p>
-                                </inertia-link>
-                            </li>
-                            <li class="nav-item" v-if="$page.props.auth.hasRole.superAdmin || $page.props.auth.hasRole.admin">
-                                <inertia-link :href="route('admin.permissions.index')" class="nav-link" :class="route().current('admin.permissions.*') ? 'active' : ' '">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>
-                                        Permissions
-                                    </p>
-                                </inertia-link>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
                         <inertia-link :href="route('admin.candidates.index')" class="nav-link">
-                            <i class="nav-icon fas fa-home"></i>
+                            <i class="nav-icon fas fa-user"></i>
                             <p>
                                 Apply Job
                             </p>
