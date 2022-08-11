@@ -34,6 +34,7 @@
     },
     "dependencies": {
         "@suadelabs/vue3-multiselect": "^1.0.0",
-        "vue-multiselect": "^3.0.0-alpha.2"
+        "vue-multiselect": "^3.0.0-alpha.2",
+        "vue3-datepicker": "^0.3.4"
     }
 }
