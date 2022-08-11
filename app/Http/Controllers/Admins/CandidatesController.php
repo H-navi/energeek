@@ -28,6 +28,7 @@ class CandidatesController extends Controller
         return Inertia::render('Admins/Candidates/Index', [
             'jobs' => Job::whereNotNull('deleted_at')->whereNotNull('deleted_by')->all(),
             'skills' => Skill::whereNotNull('deleted_at')->whereNotNull('deleted_by')->all(),
+            'candidates' => Candidate::whereNotNull('deleted_at')->whereNotNull('deleted_by')->all(),
         ]);
     }
 
