@@ -51,6 +51,7 @@ class CandidatesController extends Controller
      */
     public function store(Request $request)
     {
+        var_dump($request->request);die;
         if (auth()->user()->hasAnyRole(['super-admin', 'admin'])) {
             $this->validate($request, [
                 'job' => 'required',
@@ -150,6 +151,10 @@ class CandidatesController extends Controller
                 'year' => ['required', 'max:10'],
             ]);
 
+            $candidate = Candidate::findOrFail($candidate->id);
+            if (is_null($candidate)) {
+                abort(404);
+            }
 
             $check_email = Candidate::where('email', $request->email)->first();
             $check_phone = Candidate::where('phone', $request->phone)->first();
@@ -165,7 +170,7 @@ class CandidatesController extends Controller
             if($check_phone != null && $request->phone != $candidate->phone)
             {
                 return redirect()->route('admin.candidates.index')->with([
-                    'message' => 'ErrorEmail',
+                    'message' => 'ErrorPhone',
                 ]);
             }
 
