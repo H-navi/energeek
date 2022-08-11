@@ -47,6 +47,10 @@ class HandleInertiaRequests extends Middleware
                     ]
                 ] : null;
             },
+
+            'flash' => [
+                'message' => session('message')
+            ]
         ]);
     }
 }
