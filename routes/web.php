@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\Admins\RoleController;
 use App\Http\Controllers\Admins\UserController;
+use App\Http\Controllers\Admins\CandidatesController;
 use App\Http\Controllers\Admins\AdminController;
 use App\Http\Controllers\Admins\PermissionController;
 use App\Http\Controllers\Admins\AdminDashboardController;
@@ -40,4 +41,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'verified', 
     Route::resource('users', UserController::class)->except(['create', 'show', 'edit']);
     Route::resource('permissions', PermissionController::class)->except(['create', 'show', 'edit']);
     Route::resource('roles', RoleController::class)->except(['create', 'show', 'edit']);
+    Route::resource('candidates', CandidatesController::class)->except(['create', 'show', 'edit']);
 });
