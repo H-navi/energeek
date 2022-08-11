@@ -8,6 +8,9 @@
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Candidates</h3>
+                  <div v-if="$page.props.flash.message">
+                    <p>{{ $page.props.flash.message }}</p>
+                  </div>
                   <div
                     class="card-tools"
                     v-if="
@@ -46,10 +49,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr
-                        v-for="(candidate, index) in candidates"
-                        :key="index"
-                      >
+                      <tr v-for="(candidate, index) in candidates" :key="index">
                         <td class="text-capitalize">{{ candidate.name }}</td>
                         <td>{{ candidate.email }}</td>
                         <td>{{ candidate.phone }}</td>
@@ -90,7 +90,13 @@
         </div>
       </section>
 
-      <div class="modal fade" id="modal-lg" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+      <div
+        class="modal fade"
+        id="modal-lg"
+        data-toggle="modal"
+        data-backdrop="static"
+        data-keyboard="false"
+      >
         <div class="modal-dialog modal-lg modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -184,7 +190,15 @@
 
                     <div class="form-group">
                       <label for="year" class="h4">Tahun Lahir</label>
-                      <input type="number" class="form-control" placeholder="Tahun Lahir" v-model="form.year" :class="{ 'is-invalid' : form.errors.year }" autofocus="autofocus" autocomplete="off">
+                      <input
+                        type="number"
+                        class="form-control"
+                        placeholder="Tahun Lahir"
+                        v-model="form.year"
+                        :class="{ 'is-invalid': form.errors.year }"
+                        autofocus="autofocus"
+                        autocomplete="off"
+                      />
                       <!-- <datepicker
                         class="form-control"
                         placeholder="Tahun Lahir"
@@ -261,7 +275,7 @@ import AdminLayout from "@/Layouts/AdminLayout";
 import Pagination from "@/Components/Pagination";
 import Datepicker from "vue3-datepicker";
 export default {
-  props: ["skills", "jobs", "candidates"],
+  props: ["skills", "jobs", "candidates", "message"],
   components: {
     AdminLayout,
     Pagination,
@@ -337,10 +351,25 @@ export default {
         preserveScroll: true,
         onSuccess: () => {
           this.closeModal();
-          Toast.fire({
-            icon: "success",
-            title: "New candidate created!",
-          });
+          if (this.$page.props.flash.message == "ErrorEmail") {
+            Swal.fire({
+              icon: "warning",
+              title: "Terjadi Kesalahan",
+              text: "Email yang anda masukkan sudah pernah melamar dijabatan tersebut, silahkan memilih jabatan yang lain.",
+            });
+          } else if (this.$page.props.flash.message == "ErrorPhone") {
+            Swal.fire({
+              icon: "warning",
+              title: "Terjadi Kesalahan",
+              text: "Telepon yang anda masukkan sudah pernah melamar dijabatan tersebut, silahkan memilih jabatan yang lain.",
+            });
+          } else {
+            Swal.fire({
+              icon: "success",
+              title: "Berhasil",
+              text: "Lamaran Behasil Terkirim."
+            });
+          }
         },
       });
     },
