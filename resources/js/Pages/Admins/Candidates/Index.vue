@@ -36,6 +36,7 @@
                         <th class="text-capitalize">E-mail</th>
                         <th class="text-capitalize">Telepon</th>
                         <th class="text-capitalize">Tahun Lahir</th>
+                        <th class="text-capitalize">Jabatan</th>
                         <th class="text-capitalize">Dibuat Pada</th>
                         <th
                           class="text-capitalize text-right"
@@ -54,6 +55,7 @@
                         <td>{{ candidate.email }}</td>
                         <td>{{ candidate.phone }}</td>
                         <td>{{ candidate.year }}</td>
+                        <td>{{ candidate.jobs.name }}</td>
                         <td>{{ candidate.created_at }}</td>
                         <td
                           class="text-right"
@@ -62,8 +64,17 @@
                             $page.props.auth.hasRole.admin
                           "
                         >
-                          <button
+                          <a
                             class="btn btn-success text-uppercase"
+                            style="letter-spacing: 0.1em"
+                            v-bind:href="
+                              route('admin.candidates.show', [candidate.id])
+                            "
+                          >
+                            Detail
+                          </a>
+                          <button
+                            class="btn btn-success text-uppercase ml-1"
                             style="letter-spacing: 0.1em"
                             @click="editModal(candidate)"
                           >
@@ -115,7 +126,12 @@
                 <form @submit.prevent="checkMode">
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="skills" class="h4">Jabatan</label>
+                      <label for="skills" v-if="editMode == false" class="h4"
+                        >Jabatan</label
+                      >
+                      <label for="skills" v-if="editMode == true" class="h4"
+                        >Jabatan (leave blank if not edit)</label
+                      >
                       <multiselect
                         v-model="form.job"
                         :options="jobOptions"
@@ -217,7 +233,12 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="skills" class="h4">Skills</label>
+                      <label v-if="editMode == false" for="skills" class="h4"
+                        >Skills</label
+                      >
+                      <label v-if="editMode" for="skills" class="h4"
+                        >Skills (leave blank if not edit)
+                      </label>
                       <multiselect
                         v-model="form.skills"
                         :options="skillOptions"
@@ -235,30 +256,31 @@
                     </div>
                   </div>
 
-                  <div class="modal-footer justify-content-between">
-                    <button
-                      type="button"
-                      class="btn btn-danger text-uppercase"
-                      style="letter-spacing: 0.1em"
-                      @click="closeModal"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      class="btn btn-info text-uppercase"
-                      style="letter-spacing: 0.1em"
-                      :disabled="
-                        !form.job ||
-                        !form.name ||
-                        !form.email ||
-                        !form.phone ||
-                        !form.year ||
-                        !form.skills
-                      "
-                    >
-                      {{ buttonTxt }}
-                    </button>
+                  <div class="">
+                    <div class="row">
+                      <div class="col-12 mb-2">
+                        <button
+                          type="submit"
+                          class="btn btn-block text-uppercase"
+                          style="letter-spacing: 0.1em; background-color: #cf5066;"
+                          :disabled="
+                            !form.name || !form.email || !form.phone || !form.year
+                          "
+                        >
+                          {{ buttonTxt }}
+                        </button>
+                      </div>
+                      <div class="col-12">
+                        <button
+                          type="button"
+                          class="btn btn-block btn-warning text-uppercase"
+                          style="letter-spacing: 0.1em"
+                          @click="closeModal"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -307,7 +329,7 @@ export default {
         : "Edit Current Candidate";
     },
     buttonTxt() {
-      return this.editedIndex === -1 ? "Create" : "Edit";
+      return this.editedIndex === -1 ? "Apply" : "Edit";
     },
     checkMode() {
       return this.editMode === false
@@ -355,34 +377,48 @@ export default {
             Swal.fire({
               icon: "warning",
               title: "Terjadi Kesalahan",
-              text: "Email yang anda masukkan sudah pernah melamar dijabatan tersebut, silahkan memilih jabatan yang lain.",
+              text: "Email atau telepon yang anda masukkan sudah pernah melamar dijabatan tersebut, silahkan memilih jabatan yang lain.",
             });
           } else if (this.$page.props.flash.message == "ErrorPhone") {
             Swal.fire({
               icon: "warning",
               title: "Terjadi Kesalahan",
-              text: "Telepon yang anda masukkan sudah pernah melamar dijabatan tersebut, silahkan memilih jabatan yang lain.",
+              text: "Telepon yang anda masukkan bukan angka.",
             });
           } else {
             Swal.fire({
               icon: "success",
               title: "Berhasil",
-              text: "Lamaran Behasil Terkirim."
+              text: "Lamaran Behasil Terkirim.",
             });
           }
         },
       });
     },
     editCandidate() {
-      this.form.patch(
+      this.form.put(
         this.route("admin.candidates.update", this.form.id, this.form),
         {
           preserveScroll: true,
           onSuccess: () => {
-            Toast.fire({
-              icon: "success",
-              title: "Candidate has been updated!",
-            });
+            if (this.$page.props.flash.message == "ErrorEmail") {
+              Swal.fire({
+                icon: "warning",
+                title: "Terjadi Kesalahan",
+                text: "Email atau telepon yang anda masukkan sudah pernah melamar dijabatan tersebut, silahkan memilih jabatan yang lain.",
+              });
+            } else if (this.$page.props.flash.message == "ErrorPhone") {
+              Swal.fire({
+                icon: "warning",
+                title: "Terjadi Kesalahan",
+                text: "Telepon yang anda masukkan bukan angka.",
+              });
+            } else {
+              Toast.fire({
+                icon: "success",
+                title: "Candidate has been updated!",
+              });
+            }
             this.closeModal();
           },
         }

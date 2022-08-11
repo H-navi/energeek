@@ -41,5 +41,5 @@ Route::prefix('admin')->name('admin.')->middleware(['auth:sanctum', 'verified', 
     Route::resource('users', UserController::class)->except(['create', 'show', 'edit']);
     Route::resource('permissions', PermissionController::class)->except(['create', 'show', 'edit']);
     Route::resource('roles', RoleController::class)->except(['create', 'show', 'edit']);
-    Route::resource('candidates', CandidatesController::class)->except(['create', 'show', 'edit']);
+    Route::resource('candidates', CandidatesController::class)->except(['create', 'edit']);
 });
