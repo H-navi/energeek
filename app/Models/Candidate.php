@@ -15,6 +15,12 @@ class Candidate extends Model
         'email',
         'phone',
         'year',
+        'created_by',
+        'updated_by',
+        'deleted_by',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     protected $casts = [
