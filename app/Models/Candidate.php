@@ -21,5 +21,10 @@ class Candidate extends Model
         'created_at' => 'datetime:d-M-Y'
     ];
 
+    public function jobs()
+    {
+        return $this->belongsTo(Job::class, 'job_id');
+    }
+
     protected $with = ['jobs'];
 }
