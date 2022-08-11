@@ -74,7 +74,14 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-header">MISCELLANEOUS</li>
+                    <li class="nav-item">
+                        <inertia-link :href="route('admin.candidates.index')" class="nav-link">
+                            <i class="nav-icon fas fa-home"></i>
+                            <p>
+                                Apply Job
+                            </p>
+                        </inertia-link>
+                    </li>
                     <li class="nav-item">
                         <inertia-link :href="route('dashboard')" class="nav-link">
                             <i class="nav-icon fas fa-home"></i>
