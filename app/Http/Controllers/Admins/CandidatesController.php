@@ -25,7 +25,7 @@ class CandidatesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
+    {
         return Inertia::render('Admins/Candidates/Index', [
             'jobs' => Job::whereNull('deleted_at')->orWhereNull('deleted_by')->get(),
             'skills' => Skill::whereNull('deleted_at')->orWhereNull('deleted_by')->get(),
@@ -60,6 +60,22 @@ class CandidatesController extends Controller
                 'year' => ['required', 'max:4'],
                 'skills' => 'required',
             ]);
+
+            $check_email = Candidate::where('email', $request->email)->first();
+            $check_phone = Candidate::where('phone', $request->phone)->first();
+
+            if ($check_email != null || $check_phone  != null) :
+                return redirect()->route('admin.candidates.index')->with([
+                    'message' => 'ErrorEmail',
+                ]);
+            endif;
+
+            if (!is_numeric(str_replace(" ", "", $request->phone))) {
+                return redirect()->route('admin.candidates.index')->with([
+                    'message' => 'ErrorPhone',
+                ]);
+            }
+
             $model = Candidate::create([
                 'job_id' => $request->job['id'],
                 'name' => $request->name,
@@ -70,7 +86,7 @@ class CandidatesController extends Controller
             ]);
 
             $skills = $request->skills;
-            foreach($skills as $skill):
+            foreach ($skills as $skill) :
                 $store_skill = Skill_set::create([
                     'candidate_id' => $model->id,
                     'skill_id' => $skill['id'],
