@@ -51,7 +51,6 @@ class CandidatesController extends Controller
      */
     public function store(Request $request)
     {
-        var_dump($request->request);die;
         if (auth()->user()->hasAnyRole(['super-admin', 'admin'])) {
             $this->validate($request, [
                 'job' => 'required',
